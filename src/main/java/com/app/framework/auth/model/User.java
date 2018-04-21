@@ -1,5 +1,7 @@
 package com.app.framework.auth.model;
 
+import com.app.framework.base.BaseObject;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -8,7 +10,7 @@ import java.io.Serializable;
 
 
 @MappedSuperclass
-public class User implements Serializable {
+public class User extends BaseObject implements Serializable {
 
     /**
      *

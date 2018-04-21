@@ -1,12 +1,13 @@
 package com.app.framework.auth.controller;
 
-import com.app.framework.auth.service.UserService;
-import com.app.framework.core.utils.Md5SaltUtil;
-import com.app.framework.core.utils.Status;
 import com.app.framework.auth.model.EditPasswordParam;
 import com.app.framework.auth.model.LoginUser;
+import com.app.framework.auth.service.UserService;
+import com.app.framework.base.BaseController;
+import com.app.framework.core.utils.Md5SaltUtil;
 import com.app.framework.core.utils.PageResult;
 import com.app.framework.core.utils.Response;
+import com.app.framework.core.utils.Status;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -22,7 +23,7 @@ import java.security.spec.InvalidKeySpecException;
 
 
 @RestController
-public class AccountController {
+public class AccountController extends BaseController {
 
     @Autowired
     private UserService userService;

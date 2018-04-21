@@ -1,5 +1,6 @@
 package com.app.framework.auth.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -13,7 +14,7 @@ public class LoginUser extends User {
      */
     private static final long serialVersionUID = 1L;
 
-//    @Column(name = "last_login", length = 64)
+    @Column(name = "last_login", length = 64)
     private Long lastLogin;
 
     public Long getLastLogin() {

@@ -1,5 +1,7 @@
 package com.app.framework.auth.model;
 
+import com.app.framework.base.BaseObject;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,7 +12,7 @@ import java.io.Serializable;
  * Created by yangyijun on 2018/4/13.
  */
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public class BaseEntity extends BaseObject implements Serializable {
 
     private static final long serialVersionUID = -1101683279680617696L;
 
