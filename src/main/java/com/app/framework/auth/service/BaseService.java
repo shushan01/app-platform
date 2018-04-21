@@ -1,9 +1,9 @@
 package com.app.framework.auth.service;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.app.framework.core.utils.BaseDao;
 import com.app.framework.core.utils.PageResult;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 
 import java.util.List;
 
@@ -49,6 +49,24 @@ public class BaseService<T> {
         Page<T> page = PageHelper.startPage(pageNo, pageSize);
         List<T> list = baseDao.selectAll();
         return new PageResult<T>(pageNo, pageSize, page.getTotal(), list);
+    }
+
+    public List<T> findBy(T t) {
+        return baseDao.select(t);
+    }
+
+    public PageResult<T> findBy(T t, int pageNo, int pageSize) {
+        Page<T> page = PageHelper.startPage(pageNo, pageSize);
+        List<T> list = baseDao.select(t);
+        return new PageResult<T>(pageNo, pageSize, page.getTotal(), list);
+    }
+
+    public T findOneBy(T t) {
+        return baseDao.selectOne(t);
+    }
+
+    public int findCountBy(T t) {
+        return baseDao.selectCount(t);
     }
 
     public T findById(Object o) {
