@@ -14,10 +14,8 @@ public class RoleAuthority extends BaseEntity {
      */
     private static final long serialVersionUID = 1L;
 
-    //    @Column(name = "role_id")
     private Long roleId;
 
-    //    @Column(name = "anthority_id")
     private Long authorityId;
 
     public Long getRoleId() {

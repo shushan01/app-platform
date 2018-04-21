@@ -1,5 +1,7 @@
 package com.app.framework.auth.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -12,12 +14,10 @@ public class Role extends BaseEntity {
      */
     private static final long serialVersionUID = -1101683279680617696L;
 
-//    @NotNull
-//    @Column(name = "name", length = 64)
+    @NotBlank(message = "角色名称不能为空")
     private String name;
 
-//    @NotNull
-//    @Column(name = "description", length = 64)
+    //    @NotNull
     private String description;
 
     public String getName() {

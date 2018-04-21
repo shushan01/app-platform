@@ -21,17 +21,13 @@ public class User extends BaseObject implements Serializable {
     protected Long id;
 
     //    @NotNull
-//    @Column(name = "user_name", length = 64)
     protected String userName;
 
     //    @NotNull
-//    @Column(name = "password", length = 64)
     protected String password;
 
-    //    @Column(name = "email", length = 64)
     protected String email;
 
-    //    @Column(name = "phone", length = 64)
     protected String phone;
 
 

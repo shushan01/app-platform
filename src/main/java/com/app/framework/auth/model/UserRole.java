@@ -14,10 +14,8 @@ public class UserRole extends BaseEntity {
      */
     private static final long serialVersionUID = 1L;
 
-    //	@Column(name="user_id")
     private Long userId;
 
-    //	@Column(name="role_id")
     private Long roleId;
 
     public UserRole(Long userId, Long roleId) {

@@ -14,12 +14,10 @@ public class Authority extends BaseEntity {
      */
     private static final long serialVersionUID = -1101683279680617696L;
 
-//    @NotNull
-//    @Column(name = "name", length = 64)
+    //    @NotNull
     private String name;
 
-//    @NotNull
-//    @Column(name = "description", length = 64)
+    //    @NotNull
     private String description;
 
     public String getName() {

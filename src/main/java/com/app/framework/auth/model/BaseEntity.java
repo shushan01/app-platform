@@ -21,19 +21,15 @@ public class BaseEntity extends BaseObject implements Serializable {
     protected Long id;
 
     //    @NotNull
-//    @Column(name = "creator", length = 64)
     protected Long creator;
 
     //    @NotNull
-//    @Column(name = "ctime", length = 64)
     protected Long ctime;
 
     //    @NotNull
-//    @Column(name = "modifier", length = 64)
     protected Long modifier;
 
     //    @NotNull
-//    @Column(name = "utime", length = 64)
     protected Long utime;
 
     public Long getId() {
