@@ -24,7 +24,9 @@ server:
 spring:
     #redis分佈式session共享
     session:
-        store-type: redis
+        #如果需要redis共享则打开下面配置
+        #store-type: redis
+        store-type: none
     redis:
         host: localhost
         port: 6379
