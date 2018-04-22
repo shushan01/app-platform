@@ -37,7 +37,7 @@ public class UserCredentialsMatcher implements CredentialsMatcher {
             passwordRetryCache.put(username, retryCnt);
         }
         if (retryCnt.incrementAndGet() > maxRetry) {
-            throw new ExcessiveAttemptsException(String.format("%s,%s, %s秒后重试", Status.TOO_MANY_LOGIN_ATTEMPT.msg(), maxRetry, waitTime));
+            throw new ExcessiveAttemptsException(String.format("%s,%s, %s秒后重试", Status.ACCOUNT_TOO_MANY_LOGIN_ATTEMPT.msg(), maxRetry, waitTime));
         }
         String dbPassword = new String((char[]) info.getCredentials());
         String inpassword = new String((char[]) token.getCredentials());
