@@ -19,9 +19,9 @@ public class UserCredentialsMatcher implements CredentialsMatcher {
 
     private Cache<String, AtomicInteger> passwordRetryCache;
 
-    @Value("${shiro.login-max-retry:1}")
+    @Value("${shiro.login-max-retry:5}")
     private int maxRetry;
-    @Value("${shiro.login-retry-wait:1}")
+    @Value("${shiro.login-retry-wait:600}")
     private int waitTime;
 
     public UserCredentialsMatcher(CacheManager cacheManager) {
@@ -37,7 +37,7 @@ public class UserCredentialsMatcher implements CredentialsMatcher {
             passwordRetryCache.put(username, retryCnt);
         }
         if (retryCnt.incrementAndGet() > maxRetry) {
-            throw new ExcessiveAttemptsException(String.format("%s, %s秒后重试", Status.TOO_MANY_LOGIN_ATTEMPT.msg(), waitTime));
+            throw new ExcessiveAttemptsException(String.format("%s,%s, %s秒后重试", Status.TOO_MANY_LOGIN_ATTEMPT.msg(), maxRetry, waitTime));
         }
         String dbPassword = new String((char[]) info.getCredentials());
         String inpassword = new String((char[]) token.getCredentials());

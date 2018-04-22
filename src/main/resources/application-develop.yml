@@ -68,8 +68,8 @@ pagehelper:
     params: count=countSql
 
 shiro:
-    login-max-retry: 5000
-    login-retry-wait: 5
+    login-max-retry: 5
+    login-retry-wait: 600
     need-role: true
     need-permission: true
 
