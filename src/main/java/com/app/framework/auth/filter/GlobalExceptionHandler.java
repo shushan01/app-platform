@@ -31,6 +31,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({AuthenticationException.class, AuthorizationException.class})
     public Response handleException(HttpServletRequest request, HttpServletResponse response, ShiroException exception) throws Exception {
         Integer responseCode = HttpStatus.UNAUTHORIZED.value();
+        //如下的异常顺序还需要根据父子关系调整
         if (exception instanceof UnknownAccountException) {
             return new Response(responseCode, "账号不存在");
         } else if (exception instanceof IncorrectCredentialsException) {
