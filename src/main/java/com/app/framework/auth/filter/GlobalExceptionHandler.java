@@ -4,10 +4,7 @@ import com.app.framework.core.utils.Log;
 import com.app.framework.core.utils.LoggerFactory;
 import com.app.framework.core.utils.Response;
 import org.apache.shiro.ShiroException;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.ExcessiveAttemptsException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -35,55 +32,74 @@ public class GlobalExceptionHandler {
     public Response handleException(HttpServletRequest request, HttpServletResponse response, ShiroException exception) throws Exception {
         Integer responseCode = HttpStatus.UNAUTHORIZED.value();
         if (exception instanceof UnknownAccountException) {
-
+            return new Response(responseCode, "账号不存在");
         } else if (exception instanceof IncorrectCredentialsException) {
-
+            return new Response(responseCode, "密码错误");
         } else if (exception instanceof UnauthenticatedException) {
-
+            return new Response(responseCode, "用户未通过认证");
         } else if (exception instanceof UnauthorizedException) {
-
+            return new Response(responseCode, "用户授权错误");
         } else if (exception instanceof ExcessiveAttemptsException) {
-
+            return new Response(responseCode, "登录失败次数过多");
+        } else if (exception instanceof ExpiredCredentialsException) {
+            return new Response(responseCode, "凭证过期");
+        } else if (exception instanceof DisabledAccountException) {
+            return new Response(responseCode, "帐号被禁用");
+        } else if (exception instanceof LockedAccountException) {
+            return new Response(responseCode, "帐号被锁定");
         } else {
-
+            return new Response(responseCode, "用户未通过认证");
         }
-        return null;
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response handleException(HttpServletRequest request, IllegalArgumentException exception) throws Exception {
-        return null;
+        return new Response(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
     }
 
     //参数绑定异常处理
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response handleException(HttpServletRequest request, BindException exception) throws Exception {
-        List<FieldError> fieldErrors = exception.getFieldErrors();
-        logException(request, exception, HttpStatus.BAD_REQUEST.value());
-        return null;
+        return logException(exception.getFieldErrors());
     }
+
 
     //@Valid异常处理
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response handleException(HttpServletRequest request, MethodArgumentNotValidException exception) throws Exception {
-        List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
-        logException(request, exception, HttpStatus.BAD_REQUEST.value());
-        return null;
+        return logException(exception.getBindingResult().getFieldErrors());
     }
 
     //@RequestParam异常处理
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response handleException(HttpServletRequest request, MissingServletRequestParameterException exception) throws Exception {
-        logException(request, exception, HttpStatus.BAD_REQUEST.value());
-        return null;
+        StringBuffer sb = new StringBuffer();
+        buildLog(sb, exception.getParameterName(), exception.getMessage());
+        return new Response(HttpStatus.BAD_REQUEST.value(), sb.toString());
     }
 
+    private void buildLog(StringBuffer sb, String field, String msg) {
+        sb.append("field:[");
+        sb.append(field);
+        sb.append("] message:[");
+        sb.append(msg);
+        sb.append("]");
+    }
 
-    private void logException(HttpServletRequest request, Throwable throwable, int errorCode) throws IOException {
+    private Response logException(List<FieldError> fieldErrors) throws IOException {
+        Response response = new Response();
+        StringBuffer sb = new StringBuffer();
+        for (FieldError fieldError : fieldErrors) {
+            buildLog(sb, fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        response.setCode(HttpStatus.BAD_REQUEST.value());
+        response.setMsg(sb.toString());
+        logger.error(sb.toString());
+        return response;
     }
 
 }
