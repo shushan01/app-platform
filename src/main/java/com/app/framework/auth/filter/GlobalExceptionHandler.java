@@ -32,6 +32,21 @@ public class GlobalExceptionHandler {
     public Response handleException(HttpServletRequest request, HttpServletResponse response, ShiroException exception) throws Exception {
         Integer responseCode = HttpStatus.UNAUTHORIZED.value();
         //如下的异常顺序还需要根据父子关系调整
+        /**
+         * UnknownAccountException extends AccountException extends AuthenticationException extends ShiroException
+         * IncorrectCredentialsException extends CredentialsException  extends AuthenticationException extends ShiroException
+         * UnauthenticatedException extends AuthorizationException extends ShiroException
+         * UnauthorizedException extends  AuthorizationException extends ShiroException
+         * ExcessiveAttemptsException extends AccountException extends AuthenticationException extends ShiroException
+         * ExpiredCredentialsException extends CredentialsException extends AuthenticationException extends ShiroException
+         * DisabledAccountException extends AccountException extends AuthenticationException extends ShiroException
+         * LockedAccountException extends DisabledAccountException extends AccountException extends AuthenticationException extends ShiroException
+         */
+        /**
+         * （IncorrectCredentialsException，ExpiredCredentialsException）-> CredentialsException
+         * 最后的顺序(zi-parent)：LockedAccountException->DisabledAccountException
+         */
+        DisabledAccountException disabledAccountException = null;
         if (exception instanceof UnknownAccountException) {
             return new Response(responseCode, "账号不存在");
         } else if (exception instanceof IncorrectCredentialsException) {
@@ -44,10 +59,10 @@ public class GlobalExceptionHandler {
             return new Response(responseCode, "登录失败次数过多");
         } else if (exception instanceof ExpiredCredentialsException) {
             return new Response(responseCode, "凭证过期");
-        } else if (exception instanceof DisabledAccountException) {
-            return new Response(responseCode, "帐号被禁用");
         } else if (exception instanceof LockedAccountException) {
             return new Response(responseCode, "帐号被锁定");
+        } else if (exception instanceof DisabledAccountException) {
+            return new Response(responseCode, "帐号被禁用");
         } else {
             return new Response(responseCode, "用户未通过认证");
         }
