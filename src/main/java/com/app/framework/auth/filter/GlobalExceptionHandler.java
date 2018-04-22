@@ -53,9 +53,17 @@ public class GlobalExceptionHandler {
         }
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Response handleException(HttpServletRequest request, IllegalStateException exception) throws Exception {
+        logger.error(exception.getMessage());
+        return new Response(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response handleException(HttpServletRequest request, IllegalArgumentException exception) throws Exception {
+        logger.error(exception.getMessage());
         return new Response(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
     }
 
@@ -63,7 +71,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response handleException(HttpServletRequest request, BindException exception) throws Exception {
-        return logException(exception.getFieldErrors());
+        return buildResponse(exception.getFieldErrors());
     }
 
 
@@ -71,7 +79,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response handleException(HttpServletRequest request, MethodArgumentNotValidException exception) throws Exception {
-        return logException(exception.getBindingResult().getFieldErrors());
+        return buildResponse(exception.getBindingResult().getFieldErrors());
     }
 
     //@RequestParam异常处理
@@ -89,9 +97,10 @@ public class GlobalExceptionHandler {
         sb.append("] message:[");
         sb.append(msg);
         sb.append("]");
+        logger.error(sb.toString());
     }
 
-    private Response logException(List<FieldError> fieldErrors) throws IOException {
+    private Response buildResponse(List<FieldError> fieldErrors) throws IOException {
         Response response = new Response();
         StringBuffer sb = new StringBuffer();
         for (FieldError fieldError : fieldErrors) {
@@ -99,7 +108,6 @@ public class GlobalExceptionHandler {
         }
         response.setCode(HttpStatus.BAD_REQUEST.value());
         response.setMsg(sb.toString());
-        logger.error(sb.toString());
         return response;
     }
 
