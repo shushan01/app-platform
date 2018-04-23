@@ -64,7 +64,7 @@ public class AccountController extends BaseController {
         LoginUser authUser = subject.getPrincipals().oneByType(LoginUser.class);
         String oldPasswd = authUser.getPassword();
         if (!Md5SaltUtil.validPassword(editPasswordParam.getOldPassword(), oldPasswd)) {
-            throw new IncorrectCredentialsException(Status.NAME_PASSWD_MISMATCH.msg() +
+            throw new IncorrectCredentialsException(Status.ACCOUNT_PASSWORD_ERROR.msg() +
                     "(" + authUser.getUserName() + ", " + editPasswordParam.getOldPassword() + ")");
         }
         String newPassword = Md5SaltUtil.getEncryptedPwd(editPasswordParam.getNewPassword());
