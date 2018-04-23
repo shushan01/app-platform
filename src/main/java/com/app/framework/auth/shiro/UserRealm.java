@@ -79,7 +79,7 @@ public class UserRealm extends AuthorizingRealm {
         String username = (String) token.getPrincipal();
         LoginUser user = userDao.findByUserName(username);
         if (user == null)
-            throw new UnknownAccountException(Status.USER_NOT_EXISTS.msg());
+            throw new UnknownAccountException(Status.ACCOUNT_NOT_EXISTS.msg());
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getPassword(), getName());
         // 当验证都通过后，把用户信息放在session里
         Session session = SecurityUtils.getSubject().getSession();
