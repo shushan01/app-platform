@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 启动类
  */
 @SpringBootApplication
-@MapperScan(value = "com.app.framework.auth.dao")
+@MapperScan(value = {"com.app.framework.auth.dao", "com.app.framework.dao"})
 public class Application {
 
     public static void main(String[] args) {

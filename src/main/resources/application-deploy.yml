@@ -54,7 +54,7 @@ spring:
 
 mybatis:
     mapper-locations: classpath:mapper/*.xml
-    type-aliases-package: com.app.framework.auth.model
+    type-aliases-package: com.app.framework.auth.model,com.app.framework.model
     mapUnderscoreToCamelCase: true
 mapper:
     mappers: com.app.framework.core.utils.BaseDao
