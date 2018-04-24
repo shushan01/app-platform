@@ -36,6 +36,7 @@
 
         <!-- 指定dao接口生成的位置 -->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.app.framework.dao" targetProject=".\src\main\java">
+            <property name="rootInterface" value="com.app.framework.core.utils.BaseDao"/>
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
