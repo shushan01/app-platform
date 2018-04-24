@@ -1,6 +1,7 @@
 package com.app.framework.auth.controller;
 
 import com.app.framework.auth.model.EditPasswordParam;
+import com.app.framework.auth.model.LoginPara;
 import com.app.framework.auth.model.LoginUser;
 import com.app.framework.auth.service.UserService;
 import com.app.framework.base.BaseController;
@@ -8,7 +9,6 @@ import com.app.framework.core.utils.Md5SaltUtil;
 import com.app.framework.core.utils.Response;
 import com.app.framework.core.utils.Status;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -18,7 +18,6 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -35,8 +34,8 @@ public class AccountController extends BaseController {
     @ApiOperation(value = "用户登录接口", notes = "用户登录接口")
     @PostMapping("/login")
     @SuppressWarnings("unchecked")
-    public Response login(@ApiParam(value = "用户名") @RequestParam String name, @ApiParam(value = "密码") @RequestParam String password) {
-        SecurityUtils.getSubject().login(new UsernamePasswordToken(name, password));
+    public Response login(@RequestBody @Valid LoginPara loginPara) {
+        SecurityUtils.getSubject().login(new UsernamePasswordToken(loginPara.getUserName(), loginPara.getPassword()));
         return new Response(Status.SUCCESS.code(), Status.SUCCESS.msg());
     }
 
