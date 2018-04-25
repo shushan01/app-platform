@@ -25,15 +25,45 @@ public class BaseService<T> {
         return baseDao.delete(t);
     }
 
-    public int save(T t) {
-        return baseDao.insert(t);
+    public void save(T t) {
+        baseDao.insert(t);
     }
 
+    public void saveSelective(T t) {
+        baseDao.insertSelective(t);
+    }
+
+    public void saveGenKey(T t) {
+        baseDao.insertUseGeneratedKeys(t);
+    }
+
+    /**
+     * 返回保存的记录条数
+     *
+     * @param list
+     * @return
+     */
     public int saveBatch(List<T> list) {
         return baseDao.insertList(list);
     }
 
-    public int updateById(T t) {
+    /**
+     * 只更新有值的字段，无值的字段不更新
+     *
+     * @param t
+     * @return
+     */
+    public int update(T t) {
+        return baseDao.updateByPrimaryKeySelective(t);
+    }
+
+    /**
+     * 更新所有字段，无值字段设置为null
+     *
+     * @param t
+     * @return
+     */
+    public int updateAll(T t) {
         return baseDao.updateByPrimaryKey(t);
     }
 
